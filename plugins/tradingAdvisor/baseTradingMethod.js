@@ -3,6 +3,7 @@ var util = require('../../core/util');
 var config = util.getConfig();
 var dirs = util.dirs();
 var log = require(dirs.core + 'log');
+var cp = require(dirs.core + 'cp');
 
 var ENV = util.gekkoEnv();
 var mode = util.gekkoMode();
@@ -227,6 +228,15 @@ Base.prototype.propogateTick = function(candle) {
     this.check(candle);
   }
   this.processedTicks++;
+
+  // emit for UI
+  _.each(this.indicators, (indicator, name) => {
+    cp.indicatorResult({
+      name,
+      date: candle.start,
+      result: indicator.result
+    });
+  })
 
   // are we totally finished?
   var done = this.age === this.processedTicks;
