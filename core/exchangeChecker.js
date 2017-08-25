@@ -21,6 +21,7 @@ Checker.prototype.getExchangeCapabilities = function(slug) {
     var Trader = require(dirs.exchanges + slug);
     capabilities = Trader.getCapabilities();
   } catch (e) {
+    console.log(e);
     capabilities = null;
   }
 
